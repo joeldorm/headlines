@@ -18,7 +18,7 @@ RSS_FEEDS = {'bbc': 'http://feeds.bbci.co.uk/news/rss.xml',
              }
 
 DEFAULT = {'publication': 'bbc', 'city': 'London,UK'}
-WEATHER_URL = f'https://api.openweathermap.org/data/2.5/weather?lat=33.44&lon=-94.04&appid=bed5fb74176531e7e2258cf0af2c9ca8'
+WEATHER_URL = f'https://api.openweathermap.org/data/2.5/weather?lat=33.44&lon=-94.04&appid={api_key}'
 
 
 """ @app.route("/")
