@@ -1,9 +1,11 @@
+import datetime
 import feedparser
 import json
 from urllib.request import urlopen
 from urllib.parse import quote
 
 from flask import Flask
+from flask import make_response
 from flask import render_template
 from flask import request
 
@@ -42,16 +44,20 @@ def get_news():
 @app.route("/")
 def home():
     # get customized headlines, base on user input or default
-    publication = request.args.get("publication")
-    if not publication:
-        publication = DEFAULT['publication']
+    publication = get_value_with_fallback("publication")
+
     articles = get_news(publication)
     # get cutomized weather base on user input or default
-    city = request.args.get('city')
-    if not city:
-        city = DEFAULT['city']
+    city = get_value_with_fallback('city')
+
     weather = get_weather(WEATHER_URL)
-    return render_template("home.html", articles=articles, weather=weather)
+
+    response = make_response(render_template(
+        "home.html", articles=articles, weather=weather))
+    expires = datetime.datetime.now() + datetime.timedelta(days=365)
+    response.set_cookie("publication", publication, expires=expires)
+    response.set_cookie("city", city, expires=expires)
+    return response
 
 
 def get_news(query):
@@ -75,6 +81,13 @@ def get_weather(query):
                    'city': parsed['name']
                    }
     return weather
+
+
+def get_value_with_fallback(key):
+    if request.args.get(key):
+        return request.args.get(key)
+    if request.cookies.get(key):
+        return request.cookies.get(key)
 
 
 if __name__ == '__main__':
