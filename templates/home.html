@@ -8,7 +8,17 @@
 </head>
 
 <body>
-    <h1>HeadLine</h1>
+    <h1>HeadLines</h1>
+    <h2>Current Weather</h2>
+    <p>City: <b>{{ weather.city }}</b></p>
+    <p>{{ weather.description }} | {{ weather.temperature }} &#8451;</p>
+
+    <form>
+        <!-- <input type="text" name="publication" placeholder="search" /> -->
+        <input type="text" name="city" placeholder="weather search" />
+        <input type="submit" value="Submit" />
+    </form> <br />
+    <h2>HeadLines</h2>
     <form>
         <input type="text" name="publication" placeholder="search" />
         <input type="submit" value="Submit" />
